@@ -26,6 +26,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    //noinspection GroovyAssignabilityCheck
+    buildFeatures {
+     viewBinding true  //makes process of binding data to layout elements, enables simple inflation.
+    }
 }
 
 dependencies {

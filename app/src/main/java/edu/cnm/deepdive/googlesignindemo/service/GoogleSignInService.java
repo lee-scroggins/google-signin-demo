@@ -42,6 +42,7 @@ public class GoogleSignInService {
   public GoogleSignInAccount getAccount() {
     return account;
   }
+
   //refresh method
   public Task<GoogleSignInAccount> refresh() {
     return client.silentSignIn()
@@ -57,7 +58,7 @@ public class GoogleSignInService {
     activity.startActivityForResult(intent, requestCode);
   }
 
-  //complete sign in method
+  //COMPLETE SIGN IN method
   public Task<GoogleSignInAccount> completeSignIn(Intent data) {
     Task<GoogleSignInAccount> task = null;
     try {
