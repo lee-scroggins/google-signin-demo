@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.googlesignindemo;
+package edu.cnm.deepdive.googlesignindemo.controller;
 
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,6 +9,7 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import edu.cnm.deepdive.googlesignindemo.R;
 
 public class MainActivity extends AppCompatActivity {
 
