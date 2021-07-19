@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    return super.onOptionsItemSelected(item);
+    return handled;
   }
 
   private void logout() {  //Singleton
