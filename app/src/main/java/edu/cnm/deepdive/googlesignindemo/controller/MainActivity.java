@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean handled = true;
     switch (item.getItemId()) {
-      case R.id.sign_in:
+      case R.id.sign_out:
         logout();
         break;
       default:

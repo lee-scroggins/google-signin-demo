@@ -5,6 +5,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import edu.cnm.deepdive.googlesignindemo.R;
 import edu.cnm.deepdive.googlesignindemo.databinding.ActivityLoginBinding;
 import edu.cnm.deepdive.googlesignindemo.service.GoogleSignInService;
@@ -21,8 +22,9 @@ public class LoginActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     service = GoogleSignInService.getInstance();
     service.refresh()
-        .addOnSuccessListener((account) -> {/*if succeed switch to the MainActivity*/})
-        .addOnFailureListener((throwable) -> { /*if fail proceed with following*/
+        .subscribe(
+            this::switchToMain,
+            (throwable) -> {
           binding = ActivityLoginBinding.inflate(getLayoutInflater());
           binding.signIn.setOnClickListener((v) ->
               service.startSignIn(this,
@@ -36,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
     if (requestCode == LOGIN_REQUEST_CODE) {
       service.completeSignIn(data)
-          .addOnSuccessListener((account) -> switchToMain())
+          .addOnSuccessListener(this::switchToMain)
           .addOnFailureListener((throwable) ->
               Toast.makeText(this, "Unable to sign in with the provided credentials.",
                   Toast.LENGTH_LONG)
@@ -48,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   //SWITCH TO MAIN method
-  private void switchToMain() {    /*similar to builder patter, aka chaining*/
+  private void switchToMain(GoogleSignInAccount account) {    /*similar to builder pattern, aka chaining*/
     Intent intent = new Intent(this, MainActivity.class)
         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
             | Intent.FLAG_ACTIVITY_NEW_TASK); /*Signals to system to do something.  Switching from one activity to new activivty*/
