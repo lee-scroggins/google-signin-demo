@@ -2,6 +2,16 @@ plugins {
     id 'com.android.application'
 }
 
+static def getProperty(String filename, String property) {
+    Properties properties = new Properties();
+    properties.load(new FileInputStream(filename))
+    return properties.getProperty(property)
+}
+
+static def quoted(String value) {
+    return "\"${value}\""
+}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -14,6 +24,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def connection_properties = "$projectDir/../../../services/google-security.properties"
+        buildConfigField "String", "CLIENT_ID", quoted(getProperty(connection_properties, "client_id"))
+
+        buildConfigField "String", "BASE_URL", quoted(getProperty(connection_properties, "base_url"))
+
     }
 
     buildTypes {
@@ -29,7 +45,8 @@ android {
 
     //noinspection GroovyAssignabilityCheck
     buildFeatures {
-     viewBinding true  //makes process of binding data to layout elements, enables simple inflation.
+        viewBinding true
+        //makes process of binding data to layout elements, enables simple inflation.
     }
 }
 
@@ -44,7 +61,22 @@ dependencies {
     // Google Sign-in
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
+    // Retrofit (REST client) with ReactiveX & Gson integration
+    def retrofit_version = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    // Gson (Google JSON) dependency
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // OKHttp logging
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+
+
 }
